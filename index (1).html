@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>연제구평생학습 디지털 멘토 강좌 신청</title>
+  <meta name="description" content="연제구평생학습 디지털 멘토 강좌 신청 및 신청현황 확인" />
+  <style>
+    :root{
+      --bg:#fff;
+      --text:#111;
+      --muted:#5b5b5b;
+      --line:#d7d7d7;
+      --soft:#f6f6f6;
+      --focus:#111;
+      --radius:20px;
+      --max:880px;
+    }
+    *{box-sizing:border-box}
+    html{font-size:18px}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Malgun Gothic","맑은 고딕",Arial,sans-serif;
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    button,input,select,textarea{font:inherit;color:inherit}
+    button{cursor:pointer}
+    a{color:inherit}
+    .wrap{width:min(100% - 28px,var(--max));margin:0 auto;padding:20px 0 52px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .brand{font-size:1.08rem;font-weight:800}
+    .small-status{font-size:.85rem;color:var(--muted)}
+    .hero{padding:22px 0 18px}
+    .hero h1{font-size:clamp(1.8rem,7vw,2.65rem);line-height:1.2;margin:0 0 12px;font-weight:900;letter-spacing:-.035em}
+    .hero p{font-size:clamp(1.14rem,4.7vw,1.42rem);margin:0;color:#222;font-weight:700;letter-spacing:-.02em}
+    .menu{display:grid;gap:14px;margin-top:26px}
+    .menu-btn{
+      width:100%;min-height:92px;border:2px solid #111;background:#fff;border-radius:var(--radius);
+      text-align:left;padding:22px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+      font-size:clamp(1.28rem,5vw,1.6rem);font-weight:900;letter-spacing:-.025em;
+      box-shadow:0 2px 0 rgba(0,0,0,.04);
+    }
+    .menu-btn:hover,.menu-btn:focus-visible{background:#f7f7f7;outline:4px solid #d9d9d9;outline-offset:2px}
+    .arrow{font-size:1.8rem;line-height:1}
+    .page{display:none}
+    .page.active{display:block}
+    .page-head{display:flex;align-items:flex-start;gap:12px;margin:8px 0 20px}
+    .back-btn{border:1px solid #111;background:#fff;border-radius:14px;padding:11px 14px;font-weight:800;white-space:nowrap}
+    .page-title{margin:0;font-size:clamp(1.55rem,6vw,2.1rem);line-height:1.25;letter-spacing:-.035em}
+    .page-desc{margin:7px 0 0;color:var(--muted);font-size:1rem}
+    .notice{border:1px solid var(--line);border-radius:16px;background:var(--soft);padding:16px 17px;margin:14px 0 18px;font-size:.96rem}
+    .course-list{display:grid;gap:14px}
+    .course-card{border:1.5px solid #bdbdbd;border-radius:18px;padding:18px;background:#fff}
+    .course-name{font-size:1.28rem;font-weight:900;margin:0 0 8px;letter-spacing:-.02em}
+    .course-name button{border:0;background:transparent;padding:0;text-align:left;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;font-weight:900}
+    .meta{display:grid;gap:5px;font-size:1rem}
+    .meta b{display:inline-block;min-width:62px}
+    .counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+    .count{border-radius:14px;background:var(--soft);padding:12px 7px;text-align:center}
+    .count span{display:block;font-size:.86rem;color:var(--muted);font-weight:700}
+    .count strong{display:block;font-size:1.25rem;margin-top:1px}
+    .btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    .public-status{margin-top:14px;border-top:1px solid #ddd;padding-top:14px}
+    .public-status-title{font-weight:900;font-size:1rem;margin-bottom:8px}
+    .public-status-list{display:grid;gap:7px}
+    .public-status-row{display:grid;grid-template-columns:62px 1fr 64px;gap:8px;align-items:center;background:#f7f7f7;border-radius:12px;padding:9px 11px;font-size:.94rem}
+    .public-status-row b{text-align:center}
+    .public-status-row .last4{font-weight:900;letter-spacing:.04em}
+    .manage-box{margin:0 0 22px;border:1.5px solid #aaa;border-radius:18px;padding:16px;background:#fafafa}
+    .manage-box h3{margin:0 0 10px;font-size:1.16rem}
+    .manage-item{border-top:1px solid #ddd;padding:13px 0}
+    .manage-item:first-of-type{border-top:0}
+    .manage-name{font-weight:900;font-size:1.02rem}
+    .manage-meta{font-size:.9rem;color:var(--muted);margin-top:3px}
+    .primary,.secondary,.danger-lite{
+      min-height:52px;border-radius:14px;padding:12px 18px;font-weight:900;border:2px solid #111;
+    }
+    .primary{background:#111;color:#fff}
+    .secondary{background:#fff;color:#111}
+    .danger-lite{background:#fff;color:#111;border-style:dashed}
+    .full{width:100%}
+    .form{display:grid;gap:17px}
+    .field label,.legend{display:block;font-weight:900;margin:0 0 7px;font-size:1.03rem}
+    .field input,.field select,.field textarea{
+      width:100%;border:1.5px solid #888;border-radius:14px;padding:14px 15px;background:#fff;min-height:54px;
+      font-size:1.05rem;
+    }
+    .field textarea{min-height:130px;resize:vertical}
+    .hint{font-size:.88rem;color:var(--muted);margin-top:6px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .radio-card{border:1.5px solid #999;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:9px;font-weight:800}
+    .radio-card input{width:22px;height:22px}
+    .consent{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fafafa}
+    .consent label{display:flex;align-items:flex-start;gap:10px;font-weight:800}
+    .consent input{width:22px;height:22px;margin-top:2px;flex:0 0 auto}
+    .privacy-details{display:grid;gap:8px;margin:0 0 14px;padding:13px;border-radius:13px;background:#fff;border:1px solid #ddd;font-size:.94rem}
+    .privacy-details b{display:block;margin-bottom:1px}
+    .detail-box{border:1.5px solid #aaa;border-radius:18px;padding:19px}
+    .detail-grid{display:grid;gap:11px}
+    .detail-item b{display:block;font-size:.87rem;color:var(--muted);margin-bottom:2px}
+    .detail-item div{font-size:1.07rem;font-weight:700;white-space:pre-wrap}
+    .code-box{max-width:520px;margin:18px auto 0;border:1.5px solid #aaa;border-radius:18px;padding:19px}
+    .admin-list{display:grid;gap:12px}
+    .admin-course{border:1px solid #bbb;border-radius:18px;padding:17px}
+    .admin-course h3{margin:0 0 10px;font-size:1.2rem}
+    .admin-counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .number-btn{border:1.5px solid #777;border-radius:13px;background:#fff;padding:10px 5px;text-align:center;font-weight:900}
+    .number-btn span{display:block;font-size:.8rem;color:var(--muted)}
+    .number-btn strong{display:block;font-size:1.2rem}
+    .number-btn.static{cursor:default;background:#f7f7f7}
+    .table-wrap{overflow:auto;border:1px solid #bbb;border-radius:14px;margin-top:14px}
+    table{width:100%;border-collapse:collapse;min-width:760px;background:#fff}
+    th,td{border-bottom:1px solid #ddd;padding:11px 10px;text-align:left;vertical-align:top;font-size:.93rem}
+    th{background:#f5f5f5;font-weight:900;position:sticky;top:0}
+    .empty{border:1px dashed #aaa;border-radius:16px;padding:26px;text-align:center;color:var(--muted);font-weight:700}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);background:#111;color:#fff;border-radius:999px;padding:12px 18px;opacity:0;pointer-events:none;transition:.2s;z-index:50;max-width:calc(100vw - 24px);text-align:center;font-weight:800}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.36);display:none;align-items:flex-end;justify-content:center;z-index:40;padding:0}
+    .modal.open{display:flex}
+    .modal-card{width:min(100%,760px);max-height:90vh;overflow:auto;background:#fff;border-radius:22px 22px 0 0;padding:20px 18px 28px;box-shadow:0 -8px 30px rgba(0,0,0,.15)}
+    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+    .modal-head h2{font-size:1.45rem;margin:0;line-height:1.3}
+    .icon-btn{width:46px;height:46px;border:1px solid #777;background:#fff;border-radius:50%;font-size:1.35rem;font-weight:900}
+    .result-box{border:2px solid #111;border-radius:20px;padding:22px;text-align:center;margin-top:18px}
+    .result-box .big{font-size:1.7rem;font-weight:900;margin-bottom:8px}
+    .footnote{margin-top:26px;color:var(--muted);font-size:.82rem;text-align:center}
+    .desktop-only{display:none}
+    @media (min-width:720px){
+      html{font-size:19px}
+      .menu{grid-template-columns:1fr 1fr 1fr}
+      .menu-btn{min-height:150px;align-items:flex-end;flex-direction:column;text-align:left}
+      .two{grid-template-columns:1fr 1fr}
+      .modal{align-items:center;padding:24px}
+      .modal-card{border-radius:22px;max-height:88vh}
+      .desktop-only{display:block}
+    }
+    @media (max-width:520px){
+      .two{grid-template-columns:1fr}
+      .wrap{width:min(100% - 22px,var(--max));padding-top:14px}
+      .counts,.admin-counts{gap:6px}
+      .count,.number-btn{padding-left:4px;padding-right:4px}
+      .page-head{align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="brand">연제구평생학습</div>
+      <div class="small-status" id="dataModeLabel">데이터 연결 확인 중</div>
+    </div>
+
+    <section id="page-home" class="page active" aria-labelledby="homeTitle">
+      <div class="hero">
+        <h1 id="homeTitle">디지털 멘토와<br>편하게 1:1로 배우세요.</h1>
+        <p>원하는 강좌를 쉽고 빠르게 신청하세요.</p>
+      </div>
+      <div class="menu">
+        <button class="menu-btn" data-go="courses"><span>강좌신청하기</span><span class="arrow">›</span></button>
+        <button class="menu-btn" data-go="register-code"><span>강좌등록하기</span><span class="arrow">›</span></button>
+        <button class="menu-btn" data-go="admin-code"><span>신청현황보기</span><span class="arrow">›</span></button>
+      </div>
+      <div class="notice" style="margin-top:22px">
+        강좌별 <b>모집인원 · 신청인원 · 대기인원</b>을 바로 확인할 수 있습니다.
+      </div>
+    </section>
+
+    <section id="page-courses" class="page" aria-labelledby="coursesTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="home">← 처음</button>
+        <div><h2 class="page-title" id="coursesTitle">강좌 신청</h2><p class="page-desc">강좌 이름을 누르면 자세한 내용을 볼 수 있습니다.</p></div>
+      </div>
+      <div id="courseList" class="course-list"></div>
+    </section>
+
+    <section id="page-register-code" class="page" aria-labelledby="registerCodeTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="home">← 처음</button>
+        <div><h2 class="page-title" id="registerCodeTitle">강좌 등록</h2><p class="page-desc">관리자 코드를 입력해 주세요.</p></div>
+      </div>
+      <div class="code-box">
+        <form id="registerCodeForm" class="form">
+          <div class="field"><label for="registerCode">관리자 코드</label><input id="registerCode" type="password" autocomplete="current-password" required /></div>
+          <button class="primary full" type="submit">확인</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="page-register" class="page" aria-labelledby="registerTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="home">← 처음</button>
+        <div><h2 class="page-title" id="registerTitle">강좌 등록·관리</h2><p class="page-desc">새 강좌를 등록하거나 기존 강좌를 수정·삭제할 수 있습니다.</p></div>
+      </div>
+      <section class="manage-box" aria-labelledby="manageTitle">
+        <h3 id="manageTitle">등록 강좌 관리</h3>
+        <div id="manageCourseList"></div>
+      </section>
+      <form id="courseForm" class="form">
+        <input id="editCourseId" type="hidden" />
+        <div class="field"><label for="programName">프로그램명</label><input id="programName" maxlength="100" required /></div>
+        <div class="two">
+          <div class="field"><label for="level">난이도</label><select id="level" required><option value="">선택</option><option>기초</option><option>중급</option><option>고급</option><option>기타</option></select></div>
+          <div class="field"><label for="capacity">모집인원</label><input id="capacity" type="number" min="1" max="999" inputmode="numeric" required /></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="educationDate">교육일자</label><input id="educationDate" type="date" required /></div>
+          <div class="field"><label for="weekday">요일</label><input id="weekday" readonly placeholder="날짜를 선택하면 자동 표시" /></div>
+        </div>
+        <div class="field"><label for="educationTime">교육시간</label><input id="educationTime" placeholder="예: 14:00~15:00" maxlength="50" required /></div>
+        <div class="field"><label for="location">교육장소</label><input id="location" maxlength="100" required /></div>
+        <div class="field"><label for="inquiryPhone">문의전화</label><input id="inquiryPhone" type="tel" inputmode="tel" maxlength="30" placeholder="예: 051-000-0000" required /></div>
+        <div class="field"><label for="mentorName">멘토강사명</label><input id="mentorName" maxlength="60" required /></div>
+        <div class="field"><label for="details">교육상세내용</label><textarea id="details" maxlength="2000" required></textarea></div>
+        <div class="field"><label for="supplies">참여자 준비물</label><textarea id="supplies" maxlength="1000" placeholder="없으면 '없음'이라고 적어 주세요." required></textarea></div>
+        <div class="btn-row">
+          <button id="courseSubmitBtn" class="primary" style="flex:1" type="submit">등록</button>
+          <button id="cancelEditBtn" class="secondary" style="flex:1;display:none" type="button">수정 취소</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="page-apply" class="page" aria-labelledby="applyTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="courses">← 강좌목록</button>
+        <div><h2 class="page-title" id="applyTitle">신청자 정보</h2><p class="page-desc" id="applyCourseName"></p></div>
+      </div>
+      <form id="applicationForm" class="form">
+        <input id="applyCourseId" type="hidden" />
+        <div class="field"><label for="applicantName">이름</label><input id="applicantName" autocomplete="name" maxlength="40" required /></div>
+        <fieldset style="border:0;padding:0;margin:0"><legend class="legend">성별</legend><div class="radio-grid"><label class="radio-card"><input type="radio" name="gender" value="남" required> 남</label><label class="radio-card"><input type="radio" name="gender" value="여" required> 여</label></div></fieldset>
+        <div class="field"><label for="birthYear">출생년도</label><input id="birthYear" type="number" min="1900" max="2100" inputmode="numeric" placeholder="예: 1962" required /></div>
+        <div class="field"><label for="phone">연락처</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-1234-5678" maxlength="20" required /></div>
+        <div class="field"><label for="neighborhood">거주지 행정동</label><input id="neighborhood" placeholder="예: 연산5동" maxlength="40" required /><div class="hint">상세주소는 입력하지 않습니다.</div></div>
+        <div class="consent">
+          <div class="legend" style="margin-bottom:10px">개인정보 수집 및 이용 동의</div>
+          <div class="privacy-details">
+            <div><b>수집항목</b>이름, 성별, 출생년도, 연락처, 거주지 행정동</div>
+            <div><b>수집기간</b>2026. 12. 31.</div>
+            <div><b>수집목적</b>연제구 평생학습 정보안내, 교육신청 관련 정보 안내, 교육행사 안내</div>
+          </div>
+          <label><input id="privacyConsent" type="checkbox" required><span>위 개인정보 수집 및 이용에 동의합니다.</span></label>
+        </div>
+        <button class="primary full" type="submit">신청완료</button>
+      </form>
+      <div id="applicationResult" class="result-box" style="display:none"></div>
+    </section>
+
+    <section id="page-admin-code" class="page" aria-labelledby="adminCodeTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="home">← 처음</button>
+        <div><h2 class="page-title" id="adminCodeTitle">신청 현황</h2><p class="page-desc">신청자 정보를 보려면 관리자 코드를 입력해 주세요.</p></div>
+      </div>
+      <div class="code-box">
+        <form id="adminCodeForm" class="form">
+          <div class="field"><label for="adminCode">관리자 코드</label><input id="adminCode" type="password" autocomplete="current-password" required /></div>
+          <button class="primary full" type="submit">확인</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="page-admin" class="page" aria-labelledby="adminTitle">
+      <div class="page-head">
+        <button class="back-btn" data-go="home">← 처음</button>
+        <div><h2 class="page-title" id="adminTitle">신청자 현황</h2><p class="page-desc">숫자를 누르면 신청자 정보를 확인할 수 있습니다.</p></div>
+      </div>
+      <div id="adminCourseList" class="admin-list"></div>
+      <div class="btn-row"><button id="excelDownload" class="primary full" type="button">전체 신청자 엑셀 다운로드</button></div>
+      <div id="adminApplicantsArea"></div>
+    </section>
+
+    <p class="footnote">연제구평생학습 디지털 멘토 프로그램</p>
+  </main>
+
+  <div id="courseModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head"><h2 id="modalTitle">강좌 정보</h2><button id="closeModal" class="icon-btn" aria-label="닫기">×</button></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
+    /* =========================================================
+       실제 여러 기기에서 실시간 사용하려면 아래 2개 값을 입력하세요.
+       Supabase 설정 방법은 함께 제공되는 README.txt / supabase_setup.sql 참고.
+       값이 비어 있으면 '데모 모드'로 동작하며 현재 브라우저에만 저장됩니다.
+       ========================================================= */
+    const SUPABASE_URL = 'https://yhnyeilptnoxduhvdxxa.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_8RI8E_3Srad-6InQjA1lSg_YZZnRANG';
+
+    const REGISTER_CODE_HASH = 'ffa088a3990f98996c1189d14e2e6e1ef7a4b8b9e77c5fe6e7ae64a749702260';
+    const ADMIN_CODE_HASH = 'bc65816e1ac182cbb53c03a93ccdbc8dca96a5742438a9a8f559e70e1c8f70ab';
+    const DEMO_COURSE_KEY = 'yeonje_courses_v1';
+    const DEMO_APP_KEY = 'yeonje_applications_v1';
+
+    let sb = null;
+    let isDemo = !(SUPABASE_URL && SUPABASE_ANON_KEY);
+    let courses = [];
+    let selectedCourse = null;
+    let registerSessionCode = '';
+    let adminSessionCode = '';
+    let adminFilter = null;
+    let publicApplicants = {};
+    let editingCourseId = null;
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (v='') => String(v).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    const num = (v) => Number(v || 0);
+    const koWeekday = d => ['일','월','화','수','목','금','토'][new Date(d+'T00:00:00').getDay()] + '요일';
+    const dateText = d => d ? d.replaceAll('-','.') : '';
+    const normalizePhone = p => p.replace(/[^0-9]/g,'');
+
+    async function sha256(text){
+      const data = new TextEncoder().encode(text);
+      const digest = await crypto.subtle.digest('SHA-256', data);
+      return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');
+    }
+
+    function toast(message){
+      const t=$('toast'); t.textContent=message; t.classList.add('show');
+      clearTimeout(toast._timer); toast._timer=setTimeout(()=>t.classList.remove('show'),2300);
+    }
+
+    function go(name){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      const page=$('page-'+name); if(page){page.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});} 
+      if(name==='courses') loadCourses();
+      if(name==='register'){ renderManageCourses(); resetCourseForm(); }
+      if(name==='admin') renderAdminCourses();
+    }
+
+    function demoGet(key){ try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []} }
+    function demoSet(key,val){ localStorage.setItem(key,JSON.stringify(val)); if('BroadcastChannel' in window){ try{new BroadcastChannel('yeonje_learning').postMessage('refresh')}catch{}} }
+
+    async function init(){
+      document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+      $('closeModal').addEventListener('click',closeCourseModal);
+      $('courseModal').addEventListener('click',e=>{if(e.target===$('courseModal'))closeCourseModal()});
+      $('educationDate').addEventListener('change',e=>{$('weekday').value=e.target.value?koWeekday(e.target.value):''});
+      $('phone').addEventListener('input',e=>{e.target.value=formatPhone(e.target.value)});
+      $('registerCodeForm').addEventListener('submit',verifyRegisterCode);
+      $('adminCodeForm').addEventListener('submit',verifyAdminCode);
+      $('courseForm').addEventListener('submit',saveCourse);
+      $('cancelEditBtn').addEventListener('click',resetCourseForm);
+      $('applicationForm').addEventListener('submit',submitApplication);
+      $('excelDownload').addEventListener('click',downloadExcel);
+
+      if(!isDemo){
+        try{
+          sb = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+          $('dataModeLabel').textContent='실시간 연결';
+          sb.channel('course-status-live').on('postgres_changes',{event:'*',schema:'public',table:'course_status'},()=>loadCourses(true)).subscribe();
+        }catch(err){
+          console.error(err); isDemo=true; $('dataModeLabel').textContent='데모 모드';
+        }
+      } else {
+        $('dataModeLabel').textContent='데모 모드';
+        window.addEventListener('storage',()=>loadCourses(true));
+        if('BroadcastChannel' in window){ const bc=new BroadcastChannel('yeonje_learning'); bc.onmessage=()=>loadCourses(true); }
+      }
+      await loadCourses();
+    }
+
+    function formatPhone(value){
+      const d=value.replace(/\D/g,'').slice(0,11);
+      if(d.length<4) return d;
+      if(d.length<8) return d.replace(/(\d{3})(\d+)/,'$1-$2');
+      return d.replace(/(\d{3})(\d{3,4})(\d{4})/,'$1-$2-$3');
+    }
+
+    async function loadCourses(silent=false){
+      try{
+        if(isDemo){
+          const apps=demoGet(DEMO_APP_KEY);
+          courses=demoGet(DEMO_COURSE_KEY).map(c=>{
+            const total=apps.filter(a=>a.course_id===c.id).length;
+            return {...c,total_applications:total,accepted_count:Math.min(total,num(c.capacity)),waiting_count:Math.max(0,total-num(c.capacity))};
+          }).sort((a,b)=>String(a.education_date).localeCompare(String(b.education_date)));
+          publicApplicants={};
+          const ordered=apps.slice().sort((a,b)=>String(a.created_at).localeCompare(String(b.created_at)));
+          ordered.forEach(a=>{
+            const c=courses.find(x=>String(x.id)===String(a.course_id)); if(!c) return;
+            const list=publicApplicants[a.course_id]||(publicApplicants[a.course_id]=[]);
+            const sequence=list.length+1;
+            list.push({course_id:a.course_id,sequence,phone_last4:String(a.phone||'').slice(-4),status:sequence<=num(c.capacity)?'신청':'대기'});
+          });
+        }else{
+          const [{data,error},{data:summaryData,error:summaryError}]=await Promise.all([sb.rpc('public_list_courses'),sb.rpc('public_application_summary')]);
+          if(error) throw error; if(summaryError) throw summaryError; courses=data||[];
+          publicApplicants={}; (summaryData||[]).forEach(r=>(publicApplicants[r.course_id]||(publicApplicants[r.course_id]=[])).push(r));
+        }
+        renderCourses();
+        if($('page-register').classList.contains('active')) renderManageCourses();
+        if($('page-admin').classList.contains('active')) renderAdminCourses();
+      }catch(err){console.error(err);if(!silent) toast('강좌 정보를 불러오지 못했습니다.')}
+    }
+
+    function renderCourses(){
+      const box=$('courseList');
+      if(!courses.length){ box.innerHTML='<div class="empty">현재 등록된 강좌가 없습니다.</div>'; return; }
+      box.innerHTML=courses.map(c=>`<article class="course-card">
+        <h3 class="course-name"><button type="button" data-detail="${esc(c.id)}">${esc(c.program_name)}</button></h3>
+        <div class="meta"><div><b>날짜</b>${esc(dateText(c.education_date))}</div><div><b>요일</b>${esc(c.weekday)}</div><div><b>시간</b>${esc(c.education_time)}</div></div>
+        <div class="counts"><div class="count"><span>모집</span><strong>${num(c.capacity)}명</strong></div><div class="count"><span>신청</span><strong>${num(c.accepted_count)}명</strong></div><div class="count"><span>대기</span><strong>${num(c.waiting_count)}명</strong></div></div>
+        ${renderPublicStatus(c.id)}
+        <div class="btn-row"><button class="primary full" type="button" data-apply="${esc(c.id)}">신청하기</button></div>
+      </article>`).join('');
+      box.querySelectorAll('[data-detail]').forEach(b=>b.addEventListener('click',()=>showCourse(b.dataset.detail)));
+      box.querySelectorAll('[data-apply]').forEach(b=>b.addEventListener('click',()=>startApply(b.dataset.apply)));
+    }
+
+    function renderPublicStatus(courseId){
+      const rows=publicApplicants[courseId]||[];
+      if(!rows.length) return '<div class="public-status"><div class="public-status-title">신청 순서 확인</div><div class="hint">아직 신청자가 없습니다.</div></div>';
+      return `<div class="public-status"><div class="public-status-title">신청 순서 확인 <span class="hint">(휴대폰 끝 4자리)</span></div><div class="public-status-list">${rows.map(r=>`<div class="public-status-row"><b>${num(r.sequence)}번</b><span class="last4">•••• ${esc(r.phone_last4||'')}</span><b>${esc(r.status)}</b></div>`).join('')}</div></div>`;
+    }
+
+    function showCourse(id){
+      const c=courses.find(x=>String(x.id)===String(id)); if(!c) return;
+      selectedCourse=c;
+      $('modalTitle').textContent=c.program_name;
+      $('modalBody').innerHTML=`<div class="detail-box"><div class="detail-grid">
+        <div class="detail-item"><b>난이도</b><div>${esc(c.level)}</div></div>
+        <div class="detail-item"><b>교육일시</b><div>${esc(dateText(c.education_date))} ${esc(c.weekday)} · ${esc(c.education_time)}</div></div>
+        <div class="detail-item"><b>교육장소</b><div>${esc(c.location)}</div></div>
+        <div class="detail-item"><b>문의전화</b><div>${esc(c.inquiry_phone||'')}</div></div>
+        <div class="detail-item"><b>멘토강사</b><div>${esc(c.mentor_name)}</div></div>
+        <div class="detail-item"><b>교육내용</b><div>${esc(c.details)}</div></div>
+        <div class="detail-item"><b>준비물</b><div>${esc(c.supplies)}</div></div>
+      </div><div class="counts"><div class="count"><span>모집</span><strong>${num(c.capacity)}명</strong></div><div class="count"><span>신청</span><strong>${num(c.accepted_count)}명</strong></div><div class="count"><span>대기</span><strong>${num(c.waiting_count)}명</strong></div></div>${renderPublicStatus(c.id)}</div>
+      <div class="btn-row"><button id="modalApply" class="primary full" type="button">신청하기</button></div>`;
+      $('modalApply').addEventListener('click',()=>{closeCourseModal();startApply(c.id)});
+      $('courseModal').classList.add('open');
+    }
+    function closeCourseModal(){$('courseModal').classList.remove('open')}
+
+    function startApply(id){
+      const c=courses.find(x=>String(x.id)===String(id)); if(!c) return;
+      selectedCourse=c; $('applyCourseId').value=c.id; $('applyCourseName').textContent=c.program_name;
+      $('applicationForm').reset(); $('applyCourseId').value=c.id; $('applicationResult').style.display='none'; $('applicationForm').style.display='grid'; go('apply');
+    }
+
+    async function verifyRegisterCode(e){
+      e.preventDefault(); const code=$('registerCode').value.trim();
+      if(isDemo){ if(await sha256(code)!==REGISTER_CODE_HASH){toast('관리자 코드가 맞지 않습니다.');return;} }
+      else { const {data,error}=await sb.rpc('verify_admin_code',{p_role:'course_register',p_code:code}); if(error||!data){toast('관리자 코드가 맞지 않습니다.');return;} }
+      registerSessionCode=code; $('registerCode').value=''; go('register');
+    }
+
+    async function verifyAdminCode(e){
+      e.preventDefault(); const code=$('adminCode').value.trim();
+      if(isDemo){ if(await sha256(code)!==ADMIN_CODE_HASH){toast('관리자 코드가 맞지 않습니다.');return;} }
+      else { const {data,error}=await sb.rpc('verify_admin_code',{p_role:'applicant_view',p_code:code}); if(error||!data){toast('관리자 코드가 맞지 않습니다.');return;} }
+      adminSessionCode=code; $('adminCode').value=''; go('admin');
+    }
+
+    function resetCourseForm(){
+      editingCourseId=null;
+      $('courseForm').reset(); $('editCourseId').value=''; $('weekday').value='';
+      $('courseSubmitBtn').textContent='등록'; $('cancelEditBtn').style.display='none';
+    }
+
+    function renderManageCourses(){
+      const box=$('manageCourseList'); if(!box) return;
+      if(!courses.length){box.innerHTML='<div class="hint">등록된 강좌가 없습니다.</div>';return;}
+      box.innerHTML=courses.map(c=>`<div class="manage-item"><div class="manage-name">${esc(c.program_name)}</div><div class="manage-meta">${esc(dateText(c.education_date))} ${esc(c.weekday)} · ${esc(c.education_time)} · 모집 ${num(c.capacity)}명 · 문의 ${esc(c.inquiry_phone||'-')}</div><div class="btn-row"><button class="secondary" type="button" data-edit-course="${esc(c.id)}">수정</button><button class="danger-lite" type="button" data-delete-course="${esc(c.id)}">삭제</button></div></div>`).join('');
+      box.querySelectorAll('[data-edit-course]').forEach(b=>b.addEventListener('click',()=>editCourse(b.dataset.editCourse)));
+      box.querySelectorAll('[data-delete-course]').forEach(b=>b.addEventListener('click',()=>deleteCourse(b.dataset.deleteCourse)));
+    }
+
+    function editCourse(id){
+      const c=courses.find(x=>String(x.id)===String(id)); if(!c) return;
+      editingCourseId=c.id; $('editCourseId').value=c.id;
+      $('programName').value=c.program_name||''; $('level').value=c.level||''; $('capacity').value=c.capacity||'';
+      $('educationDate').value=c.education_date||''; $('weekday').value=c.weekday||''; $('educationTime').value=c.education_time||'';
+      $('location').value=c.location||''; $('inquiryPhone').value=c.inquiry_phone||''; $('mentorName').value=c.mentor_name||''; $('details').value=c.details||''; $('supplies').value=c.supplies||'';
+      $('courseSubmitBtn').textContent='수정완료'; $('cancelEditBtn').style.display='inline-block';
+      $('courseForm').scrollIntoView({behavior:'smooth',block:'start'}); toast('수정할 내용을 변경해 주세요.');
+    }
+
+    async function saveCourse(e){
+      e.preventDefault(); if(!registerSessionCode){toast('관리자 코드 확인이 필요합니다.');go('register-code');return;}
+      const payload={
+        program_name:$('programName').value.trim(), level:$('level').value, capacity:num($('capacity').value), education_date:$('educationDate').value,
+        weekday:$('weekday').value, education_time:$('educationTime').value.trim(), location:$('location').value.trim(), inquiry_phone:$('inquiryPhone').value.trim(), mentor_name:$('mentorName').value.trim(),
+        details:$('details').value.trim(), supplies:$('supplies').value.trim()
+      };
+      try{
+        if(editingCourseId){
+          if(isDemo){ const list=demoGet(DEMO_COURSE_KEY); const i=list.findIndex(c=>String(c.id)===String(editingCourseId)); if(i<0) throw new Error('course not found'); list[i]={...list[i],...payload}; demoSet(DEMO_COURSE_KEY,list); }
+          else { const {error}=await sb.rpc('admin_update_course',{p_code:registerSessionCode,p_course_id:editingCourseId,...Object.fromEntries(Object.entries(payload).map(([k,v])=>['p_'+k,v]))}); if(error) throw error; }
+          toast('강좌가 수정되었습니다.');
+        }else{
+          if(isDemo){ payload.id=crypto.randomUUID(); payload.created_at=new Date().toISOString(); const list=demoGet(DEMO_COURSE_KEY); list.push(payload); demoSet(DEMO_COURSE_KEY,list); }
+          else { const {error}=await sb.rpc('admin_create_course',{p_code:registerSessionCode,...Object.fromEntries(Object.entries(payload).map(([k,v])=>['p_'+k,v]))}); if(error) throw error; }
+          toast('강좌가 등록되었습니다.');
+        }
+        resetCourseForm(); await loadCourses(true); renderManageCourses();
+      }catch(err){console.error(err);toast(editingCourseId?'강좌 수정에 실패했습니다.':'강좌 등록에 실패했습니다.');}
+    }
+
+    async function deleteCourse(id){
+      if(!registerSessionCode){toast('관리자 코드 확인이 필요합니다.');return;}
+      const c=courses.find(x=>String(x.id)===String(id)); if(!c) return;
+      const deleteCode=prompt(`“${c.program_name}” 강좌를 삭제하려면 삭제코드를 입력해 주세요.`);
+      if(deleteCode===null) return;
+      if(!deleteCode.trim()){toast('삭제코드를 입력해 주세요.');return;}
+      try{
+        if(isDemo){
+          if(await sha256(deleteCode.trim())!==REGISTER_CODE_HASH){toast('삭제코드가 맞지 않습니다.');return;}
+        }else{
+          const {data,error}=await sb.rpc('verify_admin_code',{p_role:'course_register',p_code:deleteCode.trim()});
+          if(error||!data){toast('삭제코드가 맞지 않습니다.');return;}
+        }
+        const ok=confirm(`“${c.program_name}” 강좌를 정말 삭제할까요?\n\n이 강좌의 신청자 정보도 함께 삭제됩니다.`); if(!ok) return;
+        if(isDemo){
+          demoSet(DEMO_COURSE_KEY,demoGet(DEMO_COURSE_KEY).filter(x=>String(x.id)!==String(id)));
+          demoSet(DEMO_APP_KEY,demoGet(DEMO_APP_KEY).filter(a=>String(a.course_id)!==String(id)));
+        }else{ const {error}=await sb.rpc('admin_delete_course',{p_code:deleteCode.trim(),p_course_id:id}); if(error) throw error; }
+        if(String(editingCourseId)===String(id)) resetCourseForm(); await loadCourses(true); renderManageCourses(); toast('강좌가 삭제되었습니다.');
+      }catch(err){console.error(err);toast('강좌 삭제에 실패했습니다.');}
+    }
+
+    async function submitApplication(e){
+      e.preventDefault(); const courseId=$('applyCourseId').value; const gender=document.querySelector('input[name="gender"]:checked')?.value||'';
+      const payload={course_id:courseId,name:$('applicantName').value.trim(),gender,birth_year:num($('birthYear').value),phone:normalizePhone($('phone').value),neighborhood:$('neighborhood').value.trim()};
+      if(payload.phone.length<10){toast('연락처를 확인해 주세요.');return;}
+      try{
+        let result;
+        if(isDemo){
+          const apps=demoGet(DEMO_APP_KEY); const c=demoGet(DEMO_COURSE_KEY).find(x=>x.id===courseId); if(!c) throw new Error('course not found');
+          const before=apps.filter(a=>a.course_id===courseId).length; const status=before<num(c.capacity)?'신청':'대기';
+          apps.push({...payload,id:crypto.randomUUID(),created_at:new Date().toISOString()}); demoSet(DEMO_APP_KEY,apps); result={status,position:before+1};
+        } else {
+          const {data,error}=await sb.rpc('submit_application',{p_course_id:courseId,p_name:payload.name,p_gender:payload.gender,p_birth_year:payload.birth_year,p_phone:payload.phone,p_neighborhood:payload.neighborhood}); if(error) throw error; result=data;
+        }
+        await loadCourses(true); const c=courses.find(x=>String(x.id)===String(courseId));
+        $('applicationForm').style.display='none'; $('applicationResult').style.display='block';
+        $('applicationResult').innerHTML=`<div class="big">신청이 완료되었습니다.</div><div><b>${esc(c?.program_name||'강좌')}</b></div><div style="margin-top:10px">내 신청 순서: <b>${num(result?.position)}번</b> · 휴대폰 끝자리 <b>${esc(payload.phone.slice(-4))}</b></div><div style="margin-top:6px">현재 상태: <b>${esc(result?.status||'신청')}</b></div><div style="margin-top:12px">모집 ${num(c?.capacity)}명 · 신청 ${num(c?.accepted_count)}명 · 대기 ${num(c?.waiting_count)}명</div><div class="btn-row"><button class="secondary full" type="button" data-go-after="courses">다른 강좌 보기</button></div>`;
+        $('applicationResult').querySelector('[data-go-after]').addEventListener('click',()=>go('courses'));
+      }catch(err){console.error(err);toast('신청 중 오류가 발생했습니다.')}
+    }
+
+    function renderAdminCourses(){
+      const box=$('adminCourseList'); if(!adminSessionCode){go('admin-code');return;}
+      if(!courses.length){box.innerHTML='<div class="empty">등록된 강좌가 없습니다.</div>';return;}
+      box.innerHTML=courses.map(c=>`<article class="admin-course"><h3>${esc(c.program_name)}</h3><div class="admin-counts">
+        <button class="number-btn static" type="button"><span>모집</span><strong>${num(c.capacity)}명</strong></button>
+        <button class="number-btn" type="button" data-admin-course="${esc(c.id)}" data-status="신청"><span>신청</span><strong>${num(c.accepted_count)}명</strong></button>
+        <button class="number-btn" type="button" data-admin-course="${esc(c.id)}" data-status="대기"><span>대기</span><strong>${num(c.waiting_count)}명</strong></button>
+      </div></article>`).join('');
+      box.querySelectorAll('[data-admin-course]').forEach(b=>b.addEventListener('click',()=>showApplicants(b.dataset.adminCourse,b.dataset.status)));
+    }
+
+    async function getApplicants(courseId=null){
+      if(isDemo){
+        const apps=demoGet(DEMO_APP_KEY); const cs=demoGet(DEMO_COURSE_KEY);
+        const grouped={}; apps.slice().sort((a,b)=>String(a.created_at).localeCompare(String(b.created_at))).forEach(a=>{grouped[a.course_id]=(grouped[a.course_id]||0)+1;a.sequence=grouped[a.course_id];const c=cs.find(x=>x.id===a.course_id);a.course_name=c?.program_name||'';a.status=a.sequence<=num(c?.capacity)?'신청':'대기';});
+        return apps.filter(a=>!courseId||String(a.course_id)===String(courseId));
+      }
+      const {data,error}=await sb.rpc('admin_get_applicants',{p_code:adminSessionCode,p_course_id:courseId||null}); if(error) throw error; return data||[];
+    }
+
+    async function showApplicants(courseId,status){
+      try{
+        const all=await getApplicants(courseId); const rows=all.filter(r=>r.status===status); const c=courses.find(x=>String(x.id)===String(courseId)); adminFilter={courseId,status};
+        const area=$('adminApplicantsArea');
+        if(!rows.length){area.innerHTML=`<h3 style="margin-top:24px">${esc(c?.program_name||'')} · ${esc(status)}자</h3><div class="empty">해당 신청자가 없습니다.</div>`;return;}
+        area.innerHTML=`<h3 style="margin-top:24px">${esc(c?.program_name||'')} · ${esc(status)}자 ${rows.length}명</h3><div class="table-wrap"><table><thead><tr><th>순번</th><th>이름</th><th>성별</th><th>출생년도</th><th>연락처</th><th>거주지</th><th>상태</th><th>신청일시</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${num(r.sequence)}</td><td>${esc(r.name)}</td><td>${esc(r.gender)}</td><td>${esc(r.birth_year)}</td><td>${esc(formatPhone(r.phone||''))}</td><td>${esc(r.neighborhood)}</td><td>${esc(r.status)}</td><td>${esc(formatDateTime(r.applied_at||r.created_at))}</td></tr>`).join('')}</tbody></table></div>`;
+        area.scrollIntoView({behavior:'smooth',block:'start'});
+      }catch(err){console.error(err);toast('신청자 정보를 불러오지 못했습니다.')}
+    }
+
+    function formatDateTime(v){ if(!v)return''; try{return new Date(v).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return v} }
+
+    function excelCourseRow(c){
+      return {
+        '프로그램명':c.program_name||'', '난이도':c.level||'', '모집인원':num(c.capacity),
+        '신청인원':num(c.accepted_count), '대기인원':num(c.waiting_count), '교육일자':dateText(c.education_date),
+        '요일':c.weekday||'', '교육시간':c.education_time||'', '교육장소':c.location||'', '문의전화':c.inquiry_phone||'',
+        '멘토강사명':c.mentor_name||'', '교육상세내용':c.details||'', '참여자 준비물':c.supplies||'', '강좌등록일시':formatDateTime(c.created_at)
+      };
+    }
+
+    function downloadLegacyExcel(applicantData,courseData,fileBase){
+      const xmlEsc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
+      const sheetXml=(name,data,headers)=>`<Worksheet ss:Name="${xmlEsc(name)}"><Table><Row>${headers.map(h=>`<Cell><Data ss:Type="String">${xmlEsc(h)}</Data></Cell>`).join('')}</Row>${data.map(row=>`<Row>${headers.map(h=>`<Cell><Data ss:Type="String">${xmlEsc(row[h])}</Data></Cell>`).join('')}</Row>`).join('')}</Table></Worksheet>`;
+      const applicantHeaders=['번호','프로그램명','난이도','모집인원','신청인원','대기인원','교육일자','요일','교육시간','교육장소','문의전화','멘토강사명','교육상세내용','참여자 준비물','신청상태','강좌 내 순번','이름','성별','출생년도','연락처','거주지 행정동','신청일시'];
+      const courseHeaders=['프로그램명','난이도','모집인원','신청인원','대기인원','교육일자','요일','교육시간','교육장소','문의전화','멘토강사명','교육상세내용','참여자 준비물','강좌등록일시'];
+      const xml=`<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${sheetXml('전체신청자',applicantData,applicantHeaders)}${sheetXml('강좌정보',courseData,courseHeaders)}</Workbook>`;
+      const blob=new Blob(['\ufeff',xml],{type:'application/vnd.ms-excel;charset=utf-8'}); const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob); a.download=fileBase+'.xls'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    }
+
+    async function downloadExcel(){
+      if(!adminSessionCode){toast('관리자 코드 확인이 필요합니다.');return;}
+      try{
+        const rows=await getApplicants(null);
+        const courseMap=new Map(courses.map(c=>[String(c.id),c]));
+        const data=rows.map((r,i)=>{
+          const c=courseMap.get(String(r.course_id))||{};
+          return {
+            '번호':i+1,'프로그램명':c.program_name||r.course_name||'','난이도':c.level||'','모집인원':num(c.capacity),
+            '신청인원':num(c.accepted_count),'대기인원':num(c.waiting_count),'교육일자':dateText(c.education_date),'요일':c.weekday||'',
+            '교육시간':c.education_time||'','교육장소':c.location||'','문의전화':c.inquiry_phone||'','멘토강사명':c.mentor_name||'',
+            '교육상세내용':c.details||'','참여자 준비물':c.supplies||'','신청상태':r.status,'강좌 내 순번':r.sequence,
+            '이름':r.name,'성별':r.gender,'출생년도':r.birth_year,'연락처':formatPhone(r.phone||''),'거주지 행정동':r.neighborhood,
+            '신청일시':formatDateTime(r.applied_at||r.created_at)
+          };
+        });
+        const courseData=courses.map(excelCourseRow);
+        const applicantHeaders=['번호','프로그램명','난이도','모집인원','신청인원','대기인원','교육일자','요일','교육시간','교육장소','문의전화','멘토강사명','교육상세내용','참여자 준비물','신청상태','강좌 내 순번','이름','성별','출생년도','연락처','거주지 행정동','신청일시'];
+        const courseHeaders=['프로그램명','난이도','모집인원','신청인원','대기인원','교육일자','요일','교육시간','교육장소','문의전화','멘토강사명','교육상세내용','참여자 준비물','강좌등록일시'];
+        const fileBase=`연제구_평생학습_전체신청자현황_${new Date().toISOString().slice(0,10)}`;
+        if(window.XLSX){
+          const wb=XLSX.utils.book_new();
+          const ws=XLSX.utils.json_to_sheet(data,{header:applicantHeaders});
+          const cs=XLSX.utils.json_to_sheet(courseData,{header:courseHeaders});
+          ws['!cols']=[{wch:6},{wch:24},{wch:9},{wch:9},{wch:9},{wch:9},{wch:13},{wch:8},{wch:15},{wch:24},{wch:16},{wch:15},{wch:40},{wch:28},{wch:10},{wch:11},{wch:12},{wch:8},{wch:10},{wch:16},{wch:16},{wch:20}];
+          cs['!cols']=[{wch:24},{wch:9},{wch:9},{wch:9},{wch:9},{wch:13},{wch:8},{wch:15},{wch:24},{wch:16},{wch:15},{wch:40},{wch:28},{wch:20}];
+          XLSX.utils.book_append_sheet(wb,ws,'전체신청자'); XLSX.utils.book_append_sheet(wb,cs,'강좌정보');
+          XLSX.writeFile(wb,fileBase+'.xlsx');
+        }else{
+          downloadLegacyExcel(data,courseData,fileBase);
+        }
+        toast('전체 신청자 엑셀을 내려받았습니다.');
+      }catch(err){console.error(err);toast('엑셀 파일을 만들지 못했습니다.')}
+    }
+
+    init();
+  </script>
+</body>
+</html>
