@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="description" content="2026년 연제구민 디지털 시민성(A-DCS) 진단 및 실태조사 온라인 설문">
+<title>연제구민 디지털 시민성 척도 조사</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800;900&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top" id="top" hidden>
+  <div class="top-row">
+    <div><div class="sec" id="sec"></div><div class="count" id="count"></div></div>
+    <button class="size-btn" id="sizeBtn" type="button" aria-pressed="false">글자 크게</button>
+  </div>
+  <div class="bar" id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="barFill"></i></div>
+</header>
+
+<main id="main" aria-live="polite"></main>
+
+<nav class="nav" id="nav" aria-label="문항 이동">
+  <div class="nav-in" id="navIn">
+    <button class="btn" id="prevBtn" type="button">◀ 이전</button>
+    <button class="btn primary" id="nextBtn" type="button">다음 ▶</button>
+  </div>
+</nav>
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/codebook.js"></script>
+<script src="js/survey.js"></script>
+<script>startSurvey(document.getElementById("main"));</script>
+</body>
+</html>
